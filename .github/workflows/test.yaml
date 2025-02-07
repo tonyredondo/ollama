@@ -160,7 +160,18 @@ jobs:
         with:
           languages: go
           api_key: ${{secrets.DD_API_KEY}}
-      - run: go test ./...
+      - run: |
+          mkdir ${{ runner.temp }}/orchestrion_logs
+          go test ./...
+        env:
+          ORCHESTRION_LOG_LEVEL: trace
+          ORCHESTRION_LOG_FILE: ${{ runner.temp }}/orchestrion_logs/orchestrion.log
+      - name: Upload orchestrion logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: orchestrion-logs-${{ matrix.os }}
+          path: ${{ runner.temp }}/orchestrion_logs
 
   patches:
     runs-on: ubuntu-latest

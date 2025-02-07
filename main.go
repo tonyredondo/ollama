@@ -9,6 +9,5 @@ import (
 )
 
 func main() {
-	// change
 	cobra.CheckErr(cmd.NewCLI().ExecuteContext(context.Background()))
 }
