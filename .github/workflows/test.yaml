@@ -155,6 +155,11 @@ jobs:
       - uses: golangci/golangci-lint-action@v6
         with:
           args: --timeout 10m0s -v
+      - name: Configure Datadog Test Optimization
+        uses: datadog/test-visibility-github-action@v2
+        with:
+          languages: go
+          api_key: ${{secrets.DD_API_KEY}}
       - run: go test ./...
 
   patches:
